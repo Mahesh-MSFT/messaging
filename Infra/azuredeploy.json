@@ -222,12 +222,12 @@
             }
         },
         {
-            "name": "mqQueueMgr-VM/VMReadinessExtension",
+            "name": "mqQueueMgr-VM/MQReadinessExtension",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2019-07-01",
             "location": "[resourceGroup().location]",
             "tags": {
-                "displayName": "Readiness on Windows VM Extension"
+                "displayName": "MQ Readiness on Windows VM Extension"
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Compute/virtualMachines', 'mqQueueMgr-VM')]"
@@ -239,11 +239,13 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/MainScript.ps1"
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/MainScript.ps1",
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/1_MQInstallExt.ps1",
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/2_PrepareDisks.ps1"
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted  -File MQInstallExt.ps1"
+                    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted  -File MainScript.ps1"
                 }
             }
         }
