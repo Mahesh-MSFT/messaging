@@ -239,11 +239,11 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "[concat('artifactsLocation', '/MQInstallExt.ps1', 'artifactsLocationSasToken')]"
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/MQInstallExt.ps1"
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "powershell -ExecutionPolicy Bypass -file customScript.ps1"
+                    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted  -File MQInstallExt.ps1"
                 }
             }
         }
