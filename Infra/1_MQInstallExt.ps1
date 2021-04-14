@@ -13,7 +13,7 @@ $mqInstallLogFilePath = 'C:\MQInstallMedia\mqadv_dev921_windows\Install.Log'
  [Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
 
 # Find and Install PS Module for Zip/Unzip Ops
-Invoke-Expression "& { $(Invoke-RestMethod https://aka.ms/install-powershell.ps1) } -UseMSI"
+Invoke-Expression "& { $(Invoke-RestMethod https://aka.ms/install-powershell.ps1) } -UseMSI -Quite"
 Find-Module -Name Microsoft.PowerShell.Archive | Install-Module
 
 if (!(Test-Path -Path $InstallFolder))
