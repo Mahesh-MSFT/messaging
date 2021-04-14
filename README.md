@@ -7,3 +7,7 @@ https://developer.ibm.com/tutorials/mq-connect-app-queue-manager-windows/
 
 https://www.ibm.com/docs/en/ibm-mq/7.5?topic=iwmcw-advanced-installation-using-msiexec
 https://www.ibm.com/docs/en/ibm-mq/9.0?topic=managers-create-multi-instance-queue-manager
+
+https://github.com/ibm-messaging/mq-azure/wiki/How-to-setup-IBM-MQ-Multi-instance-queue-manager-with-Microsoft-Azure-File-Service
+
+https://powershellexplained.com/2016-10-21-powershell-installing-msi-files/
