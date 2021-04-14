@@ -9,6 +9,9 @@ $mqMSIFile = 'C:\MQInstallMedia\mqadv_dev921_windows\MQServer\MSI\IBM MQ.msi'
 # MQ Install Log File Path
 $mqInstallLogFilePath = 'C:\MQInstallMedia\mqadv_dev921_windows\Install.Log'
 
+# Find and Install PS Module for Zip/Unzip Ops
+Invoke-Expression "& { $(Invoke-RestMethod https://aka.ms/install-powershell.ps1) } -UseMSI"
+Find-Module -Name Microsoft.PowerShell.Archive | Install-Module
 
 if (!(Test-Path -Path $InstallFolder))
 {
@@ -27,9 +30,6 @@ if (!(Test-Path -Path $destinationFilePath -PathType Leaf))
     #Download the file
     $response = Invoke-WebRequest -Uri $installSource -OutFile $destinationFilePath
 
-    # Import Archive Module
-    Import-Module Microsoft.PowerShell.Archive
-
     # If download is successful
     if ($response.StatusCode -eq 200)
     {
@@ -40,9 +40,6 @@ else {
     # Check if Zip File in not extracted
     if (!(Test-Path -Path $mqExtractFolder))
     {
-        # Import Archive Module
-        Import-Module Microsoft.PowerShell.Archive
-
         # Extract
         Expand-Archive -LiteralPath $destinationFilePath -DestinationPath $mqExtractFolder -Force
     }
