@@ -5,7 +5,7 @@ $installSource = 'https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere
 # MQ Extract FOlder
 $mqExtractFolder = 'C:\MQInstallMedia\mqadv_dev921_windows'
 # MQ Installable MSI Path
-$mqMSIFile = 'C:\MQInstallMedia\mqadv_dev921_windows\MQServer\MSI\IBM MQ.msi'
+$mqMSIFile = "C:\MQInstallMedia\mqadv_dev921_windows\MQServer\MSI\IBM MQ.msi"
 # MQ Install Log File Path
 $mqInstallLogFilePath = 'C:\MQInstallMedia\mqadv_dev921_windows\Install.Log'
 
@@ -44,11 +44,18 @@ else {
     # Run MSI
     if ((Test-Path -Path $mqMSIFile -PathType Leaf))
     {
+        $MSIArguments = @(
+            "/i"
+            ('"{0}"' -f  $mqMSIFile)
+            "/L*v"
+            ('"{1}"' -f  $mqInstallLogFilePath)
+            "TRANSFORMS=1033.mst AGREETOLICENSE=yes ADDLOCAL=Server"
+        )
+
         # Run MSI
-        Start-Process /wait msiexec /i $mqMSIFile /l*v $mqInstallLogFilePath /q RESPONSE="C:\MQInstallMedia\mqadv_dev921_windows\MQServer\Response.ini" TRANSFORMS="1033.mst" AGREETOLICENSE="yes" ADDLOCAL="Server"
+        Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow 
 
         # Check Error Level
         Write-Output %ERRORLEVEL%
     }
-    
 }
