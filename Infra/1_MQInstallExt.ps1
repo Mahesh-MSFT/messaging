@@ -9,6 +9,9 @@ $mqMSIFile = 'C:\MQInstallMedia\mqadv_dev921_windows\MQServer\MSI\IBM MQ.msi'
 # MQ Install Log File Path
 $mqInstallLogFilePath = 'C:\MQInstallMedia\mqadv_dev921_windows\Install.Log'
 
+ # Set TLS
+ [Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
+
 # Find and Install PS Module for Zip/Unzip Ops
 Invoke-Expression "& { $(Invoke-RestMethod https://aka.ms/install-powershell.ps1) } -UseMSI"
 Find-Module -Name Microsoft.PowerShell.Archive | Install-Module
@@ -24,9 +27,7 @@ $destinationFilePath = 'C:\MQInstallMedia\mqadv_dev921_windows.zip'
 
 if (!(Test-Path -Path $destinationFilePath -PathType Leaf))
 {
-    # Set TLS
-    [Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
-
+   
     #Download the file
     $response = Invoke-WebRequest -Uri $installSource -OutFile $destinationFilePath
 
