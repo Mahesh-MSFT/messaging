@@ -48,7 +48,7 @@ else {
             "/i"
             ('"{0}"' -f  $mqMSIFile)
             "/L*v"
-            ('"{1}"' -f  $mqInstallLogFilePath)
+            $mqInstallLogFilePath
             "TRANSFORMS=1033.mst AGREETOLICENSE=yes ADDLOCAL=Server"
         )
 
