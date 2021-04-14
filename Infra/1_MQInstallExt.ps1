@@ -27,6 +27,9 @@ if (!(Test-Path -Path $destinationFilePath -PathType Leaf))
     #Download the file
     $response = Invoke-WebRequest -Uri $installSource -OutFile $destinationFilePath
 
+    # Import Archive Module
+    Import-Module Microsoft.PowerShell.Archive
+
     # If download is successful
     if ($response.StatusCode -eq 200)
     {
@@ -37,6 +40,10 @@ else {
     # Check if Zip File in not extracted
     if (!(Test-Path -Path $mqExtractFolder))
     {
+        # Import Archive Module
+        Import-Module Microsoft.PowerShell.Archive
+
+        # Extract
         Expand-Archive -LiteralPath $destinationFilePath -DestinationPath $mqExtractFolder -Force
     }
 

@@ -3,7 +3,7 @@ $location="uksouth"
 $deploymentName="mqTesting-deployment"
 
 # Login
-az login -s "5dd3998d-b447-44b5-884a-2da7751e365a"
+az login --s "5dd3998d-b447-44b5-884a-2da7751e365a"
 
 # Create Resource Group
 az group create -n $rgName  -l $location
