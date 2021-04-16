@@ -241,7 +241,8 @@
                     "fileUris": [
                         "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/MainScript.ps1",
                         "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/1_MQInstallExt.ps1",
-                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/2_PrepareDisks.ps1"
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/2_PrepareDisks.ps1",
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/3_CreateMIQueueMgr.ps1"
                     ]
                 },
                 "protectedSettings": {
