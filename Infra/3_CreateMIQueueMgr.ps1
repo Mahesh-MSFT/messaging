@@ -1,4 +1,4 @@
-$installed = (Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*).DisplayName -Contains "IBM MQ"
+$installed = ((Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*).DisplayName -Match "IBM MQ").Length -gt 0
 
 If(-Not $installed) {
 	Write-Host "MQ  is Not installed.";
