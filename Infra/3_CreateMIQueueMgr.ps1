@@ -7,15 +7,24 @@ If(-Not $installed) {
 
     Set-Location S:\
 
-    mkdir mqha
+    if (!(Test-Path -Path 'S:\mqha'))
+    {
+        mkdir mqha
+    }
     
     Set-Location mqha
     
-    mkdir logs
+    if (!(Test-Path -Path 'S:\mqha\logs'))
+    {
+        mkdir logs
+    }
     
-    mkdir qmgrs
+    if (!(Test-Path -Path 'S:\mqha\qmgrs'))
+    {
+        mkdir qmgrs
+    }
     
-    crtmqm -ld S:\mqha\logs -md S:\mqha\mqha\qmgrs QMHA1
+    crtmqm -ld S:\mqha\logs -md S:\mqha\qmgrs QMHA1
     
     strmqm QMHA1
 }
