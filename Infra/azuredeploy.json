@@ -355,7 +355,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted  -File MainScript.ps1"
+                    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted  -File MIInstall.ps1"
                 }
             }
         }
