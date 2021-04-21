@@ -29,10 +29,12 @@ If(-Not $installed) {
     }
     
     icacls S:\ /grant "mqm:(OI)(CI)F"
-    
+
     crtmqm -ld S:\mqha\logs -md S:\mqha\qmgrs QMHA1
+
+    dspmqinf -o command QMHA1 > S:\mqha\dspmqinf.txt
     
-    strmqm QMHA1
+    #strmqm QMHA1
 }
 
 
