@@ -32,9 +32,9 @@ If(-Not $installed) {
 
     crtmqm -ld S:\mqha\logs -md S:\mqha\qmgrs QMHA1
 
-    if (!(Test-Path -Path 'S:\mqha\dspmqinf.txt' -PathType Leaf))
+    if (!(Test-Path -Path 'S:\mqha\dspmqinf.ps1' -PathType Leaf))
     {
-        dspmqinf -o command QMHA1 > S:\mqha\dspmqinf.txt
+        dspmqinf -o command QMHA1 > S:\mqha\dspmqinf.ps1
     }
 
     #strmqm QMHA1
