@@ -11,3 +11,5 @@ https://www.ibm.com/docs/en/ibm-mq/9.0?topic=managers-create-multi-instance-queu
 https://github.com/ibm-messaging/mq-azure/wiki/How-to-setup-IBM-MQ-Multi-instance-queue-manager-with-Microsoft-Azure-File-Service
 
 https://powershellexplained.com/2016-10-21-powershell-installing-msi-files/
+
+https://www.ibm.com/support/pages/permission-denied-create-mq-multi-instance-queue-manager-using-smb-30-azure
