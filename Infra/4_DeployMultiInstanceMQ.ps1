@@ -1,0 +1,1 @@
+S:\mqha\dspmqinf.ps1

@@ -217,6 +217,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Compute/disks', parameters('dataDiskName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', 'mqQueueMgr-2-VM-NetworkInterface')]",
+                "[resourceId('Microsoft.Compute/virtualMachines','mqQueueMgr-VM')]",
                 "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'mqQueueMgr-VM','MQReadinessExtension')]"
             ],
             "tags": {
@@ -321,6 +322,36 @@
                         "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/1_MQInstallExt.ps1",
                         "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/2_PrepareDisks.ps1",
                         "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/3_CreateMIQueueMgr.ps1"
+                    ]
+                },
+                "protectedSettings": {
+                    "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted  -File MainScript.ps1"
+                }
+            }
+        },
+        {
+            "name": "mqQueueMgr-VM/MultiInstanceMQExtension",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-07-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "displayName": "Multi-instance MQ Installation on Windows VM Extension"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', 'mqQueueMgr-VM')]",
+                "[resourceId('Microsoft.Compute/virtualMachines', 'mqQueueMgr-2-VM')]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'mqQueueMgr-VM','MQReadinessExtension')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.10",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/MIInstall.ps1",
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/2_PrepareDisks.ps1",
+                        "https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/4_DeployMultiInstanceMQ.ps1"
                     ]
                 },
                 "protectedSettings": {
