@@ -123,5 +123,10 @@
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "hostname": {
+            "type": "object",
+            "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', 'mqQueueMgr-2-VM')).osProfile]"
+        }
+    }
 }

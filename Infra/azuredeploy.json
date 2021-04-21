@@ -299,6 +299,6 @@
         "hostname": {
             "type": "object",
             "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', 'mqQueueMgr-VM')).osProfile]"
-    }
+        }
     }
 }
