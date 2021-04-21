@@ -23,7 +23,7 @@ az deployment group validate -g $rgName `
 az deployment group create -n $deploymentName `
     -g $rgName `
     --template-file azuredeploy.json `
-    --parameters azuredeploy.parameters.json
+    --parameters azuredeploy.parameters.json 
 
 # Find VM list by location    
 az vm list-sizes --location "westus"
