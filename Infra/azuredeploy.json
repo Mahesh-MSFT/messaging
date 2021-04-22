@@ -253,8 +253,16 @@
             "name": "MultiInstanceDeployment",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-10-01",
+            "dependsOn": [
+                "mqQueueMgr-VM-VirtualNetwork",
+                "mqQueueMgr-VM",
+                "MQReadinessExtension"
+            ],
             "properties": {
                 "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "outer"
+                },
                 "template": {
                     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                     "contentVersion": "1.0.0.0",
@@ -266,7 +274,7 @@
                             "apiVersion": "2019-11-01",
                             "location": "[resourceGroup().location]",
                             "dependsOn": [
-                                "[resourceId('Microsoft.Network/virtualNetworks', 'mqQueueMgr-VM-VirtualNetwork')]"
+                                "mqQueueMgr-VM-VirtualNetwork"
                             ],
                             "tags": {
                                 "displayName": "mqQueueMgr-2-VM Network Interface"
@@ -278,7 +286,7 @@
                                         "properties": {
                                             "privateIPAllocationMethod": "Dynamic",
                                             "subnet": {
-                                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'mqQueueMgr-VM-VirtualNetwork', 'mqQueueMgr-VM-VirtualNetwork-Subnet')]"
+                                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', resourceGroup().name, 'mqQueueMgr-VM-VirtualNetwork', 'mqQueueMgr-VM-VirtualNetwork-Subnet')]"
                                             }
                                         }
                                     }
@@ -291,10 +299,9 @@
                             "apiVersion": "2019-07-01",
                             "location": "[resourceGroup().location]",
                             "dependsOn": [
-                                "[resourceId('Microsoft.Compute/disks', parameters('dataDiskName'))]",
-                                "[resourceId('Microsoft.Network/networkInterfaces', 'mqQueueMgr-2-VM-NetworkInterface')]",
-                                "[resourceId('Microsoft.Compute/virtualMachines','mqQueueMgr-VM')]",
-                                "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'mqQueueMgr-VM','MQReadinessExtension')]"
+                                "mqQueueMgr-VM",
+                                "MQReadinessExtension",
+                                "mqQueueMgr-2-VM-NetworkInterface"
                             ],
                             "tags": {
                                 "displayName": "mqQueueMgr-2-VM"
@@ -348,8 +355,8 @@
                                 "displayName": "Multi-instance MQ Installation on Windows VM Extension"
                             },
                             "dependsOn": [
-                                "[resourceId('Microsoft.Compute/virtualMachines', 'mqQueueMgr-2-VM')]",
-                                "[resourceId('Microsoft.Compute/virtualMachines/extensions', 'mqQueueMgr-VM','MQReadinessExtension')]"
+                                "mqQueueMgr-2-VM",
+                                "MQReadinessExtension"
                             ],
                             "properties": {
                                 "publisher": "Microsoft.Compute",
@@ -370,10 +377,6 @@
                         }
                     ],
                     "outputs": {
-                        "hostname": {
-                            "type": "object",
-                            "value": "[reference(resourceId('Microsoft.Compute/virtualMachines', 'mqQueueMgr-2-VM')).osProfile]"
-        }
                     }
                 }
             }
