@@ -1,16 +1,10 @@
 param vmSize string
-
-module storageMod '2_storage.bicep' = {
-  name: 'storageMod'
-}
-
-module networkMod '3_networking.bicep'= {
-  name: 'networkMod'
-}
+param dataDiskId string
+param nicId string
 
 resource firstVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
 location: resourceGroup().location
-name: 'firstVM'
+name: 'mqQueueMgr-VM'
 properties: {
   hardwareProfile: {
     vmSize: vmSize
@@ -37,20 +31,44 @@ properties: {
         lun: 0
         createOption: 'Attach'
         managedDisk: {
-            id: storageMod.outputs.dataDiskOp_Id
+            id: dataDiskId
         }
       }
     ]
   }
   networkProfile:{
     networkInterfaces:[
-      {
-        id: networkMod.outputs.nicOp_Id
-      }
-    ]
+        {
+          id: nicId
+        }
+      ]
+    }
   }
-}
+}  
 
-}
-
+resource firstVmExtension 'Microsoft.Compute/virtualMachines/extensions@2020-12-01' = {
+  name: 'mqQueueMgr-VM/MQReadinessExtension'
+  location: resourceGroup().location
+  dependsOn: [
+    firstVM
+  ]
+  properties:{
+      publisher: 'Microsoft.Compute'
+      type: 'CustomScriptExtension'
+      typeHandlerVersion: '1.10'
+      autoUpgradeMinorVersion: true
+      settings: {
+        fileUris: [
+          'https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/MainScript.ps1'
+          'https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/1_MQInstallExt.ps1'
+          'https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/2_PrepareDisks.ps1'
+          'https://raw.githubusercontent.com/Mahesh-MSFT/messaging/main/Infra/3_CreateMIQueueMgr.ps1'
+        ]
+      }
+      protectedSettings:{
+        commandToExecute: 'powershell.exe -ExecutionPolicy Unrestricted  -File MainScript.ps1'
+      }
+    }
+  }
+  
 output firstVmNameOp object = firstVM

@@ -4,7 +4,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2020-11-01'= {
   properties:{
     securityRules:[
       {
-        name: ''
+        name: 'nsgRule1'
         properties: {
             description: 'description'
             protocol: 'Tcp'
@@ -21,7 +21,17 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2020-11-01'= {
   }
 }
 
-resource vNet 'Microsoft.Network/virtualNetworks@2020-11-01' ={
+resource firstVmSubnet 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' = {
+  name: '${vNet.name}/mqQueueMgr-VM-VirtualNetwork-Subnet'
+  properties:{
+    addressPrefix:'10.0.0.0/24'
+    networkSecurityGroup:{
+      id: nsg.id
+    }
+  }
+}
+
+resource vNet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
   name: 'mqQueueMgr-VM-VirtualNetwork'
   location: resourceGroup().location
   properties:{
@@ -32,15 +42,6 @@ resource vNet 'Microsoft.Network/virtualNetworks@2020-11-01' ={
     }
     subnets:[
       {
-        name: 'mqQueueMgr-VM-VirtualNetwork-Subnet'
-        properties:{
-          addressPrefix:'10.0.0.0/24'
-          networkSecurityGroup:{
-            id: nsg.id
-          }
-        }
-      }
-      {
         name: 'AzureBastionSubnet'
         properties:{
           addressPrefix: '10.0.1.0/27'
@@ -50,7 +51,7 @@ resource vNet 'Microsoft.Network/virtualNetworks@2020-11-01' ={
   }
 }
 
-resource nic 'Microsoft.Network/networkInterfaces@2020-11-01'={
+resource nic 'Microsoft.Network/networkInterfaces@2020-11-01'= {
   name: 'mqQueueMgr-VM-NetworkInterface'
   location: resourceGroup().location
 
@@ -61,7 +62,7 @@ resource nic 'Microsoft.Network/networkInterfaces@2020-11-01'={
         properties:{
           privateIPAllocationMethod:'Dynamic'
           subnet:{
-            id: nsg.id
+            id: firstVmSubnet.id
           }
         }
       }
